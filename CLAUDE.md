@@ -8,14 +8,16 @@ This is a static portfolio website for Natalie Allen, a PhD student in Conservat
 
 ## Site Structure
 
-The website consists of three main pages:
+The website consists of four main pages:
 
 1. **index.html** - Home/About page with profile information, social/academic links (Google Scholar, LinkedIn, ORCID), CV download, and photo gallery
-2. **publications.html** - Publications list formatted in AMA citation style
-3. **research.html** - Research interests and areas of focus in conservation genomics
+2. **research.html** - Research interests AND a Projects section with figure + blurb cards for highlighted work
+3. **publications.html** - Publications list formatted in AMA citation style
+4. **contact.html** - Contact page with email mailto link and social/academic links
 
 All pages share:
-- A consistent navigation bar (sticky header)
+- A consistent navigation bar (sticky header) with About, Research, Publications, Contact
+- A `.page-banner` element directly under the nav for an optional wide hero image
 - Unified styling via `styles.css`
 - Responsive design that works on mobile, tablet, and desktop
 - Professional green color scheme reflecting conservation/nature themes
@@ -33,13 +35,18 @@ All pages share:
 To update site content:
 
 1. **Profile links**: Edit `href` attributes in `index.html` social links section
-2. **Publications**: Add/edit publication entries in `publications.html` following AMA format
-3. **Research areas**: Modify research cards in `research.html`
-4. **Images**: Add images to `images/` directory:
+2. **Publications**: Add/edit publication entries in `publications.html` following AMA format. Add a `<a class="publication-link" href="DOI URL">doi:...</a>` inside the `.publication-text` paragraph for published work.
+3. **Research areas**: Modify research cards in the "Research Interests" section of `research.html`
+4. **Projects**: Edit the `.project-card` blocks in `research.html`. Each card has a `.project-figure` (background image) and a `.project-body` with title, blurb, and meta line. Replace the figure placeholder by uncommenting the `background-image` in the inline style and pointing it at your image (e.g. `images/project-1.jpg`).
+5. **Banner images**: Each page has an empty `<div class="page-banner"></div>` directly under the nav. Add an inline `style="background-image: url('images/banner-research.jpg');"` to set a banner. Recommended size: ~2000x500px landscape.
+6. **Contact email**: Update the `mailto:` link and visible address in `contact.html`.
+7. **Images**: Add images to `images/` directory:
    - `profile.jpg` - main profile photo
    - `field-[1-4].jpg` - gallery images
-5. **CV**: Add PDF to root directory and update download link in `index.html`
-6. **Colors**: Modify CSS custom properties in `:root` selector in `styles.css`
+   - `banner-{home,research,publications,contact}.jpg` - per-page banners (optional)
+   - `project-[1-3].jpg` - project card figures
+8. **CV**: Add PDF to root directory and update download link in `index.html`
+9. **Colors**: Modify CSS custom properties in `:root` selector in `styles.css`
 
 ## Development Workflow
 
@@ -62,14 +69,24 @@ python -m http.server 8000
 ```
 /
 ├── index.html          # Home page (About)
-├── research.html       # Research interests
+├── research.html       # Research interests + Projects section
 ├── publications.html   # Publications list
+├── contact.html        # Contact page (email, links)
 ├── styles.css          # All styles (CSS variables, responsive design)
 ├── images/             # Image assets
 ├── CLAUDE.md          # This file
 ├── README.md          # User-facing documentation
 └── .gitignore         # Git ignore rules
 ```
+
+## Spacing Conventions
+
+The site uses tight vertical spacing for a denser, less white-space-heavy feel.
+If you adjust padding, keep it consistent across components:
+- Section padding: ~1.25–1.75rem (not 3rem)
+- Hero padding: ~1.75rem 0
+- Card padding: ~1.25rem 1.5rem
+- Footer padding: ~1.25rem with 2.5rem top margin
 
 ## Styling System
 
