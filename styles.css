@@ -14,8 +14,13 @@
     --bg-color: #ffffff;
     --bg-light: #f8f9fa;
     --border-color: #e0e0e0;
-    --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
+    --shadow: 0 1px 2px rgba(16, 42, 67, 0.06), 0 4px 12px rgba(16, 42, 67, 0.07);
+    --shadow-hover: 0 4px 10px rgba(16, 42, 67, 0.10), 0 12px 28px rgba(16, 42, 67, 0.13);
+    --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -23,6 +28,26 @@ body {
     line-height: 1.55;
     color: var(--text-color);
     background-color: var(--bg-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+    letter-spacing: -0.015em;
+}
+
+/* Keyboard focus accessibility */
+a:focus-visible,
+.btn:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+::selection {
+    background: var(--secondary-color);
+    color: #fff;
 }
 
 /* Navigation */
@@ -61,14 +86,26 @@ body {
     color: white;
     text-decoration: none;
     font-weight: 500;
-    transition: opacity 0.3s ease;
     padding: 0.4rem 0;
-    border-bottom: 2px solid transparent;
+    position: relative;
 }
 
-.nav-link:hover,
-.nav-link.active {
-    border-bottom-color: var(--secondary-color);
+.nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--secondary-color);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s var(--ease);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    transform: scaleX(1);
 }
 
 /* Page Banner (top of each page, optional image) */
@@ -155,7 +192,7 @@ body {
     border: 2px solid var(--primary-color);
     border-radius: 8px;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: background-color 0.25s var(--ease), color 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
 
 .btn:hover {
@@ -163,6 +200,10 @@ body {
     color: white;
     transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
+}
+
+.btn:active {
+    transform: translateY(0);
 }
 
 .btn-primary {
@@ -215,6 +256,63 @@ body {
     color: var(--text-color);
 }
 
+/* In the Media Section */
+.media {
+    padding: 1rem 0 0.5rem;
+}
+
+.media h2 {
+    color: var(--primary-color);
+    font-size: 1.55rem;
+    margin-bottom: 0.85rem;
+}
+
+.media-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.85rem;
+}
+
+.media-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1.1rem 1.25rem;
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--secondary-color);
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-left-color 0.3s var(--ease);
+}
+
+.media-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+    border-left-color: var(--primary-color);
+}
+
+.media-source {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.media-headline {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    line-height: 1.35;
+}
+
+.media-cta {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--accent-color);
+}
+
 /* Gallery Section */
 .gallery {
     padding: 1rem 0 0.5rem;
@@ -238,7 +336,7 @@ body {
     object-fit: cover;
     border-radius: 8px;
     box-shadow: var(--shadow);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
 }
 
 .gallery-img:hover {
@@ -507,6 +605,35 @@ body {
     text-align: center;
     padding: 1.25rem;
     margin-top: 2.5rem;
+}
+
+/* Subtle load-in motion */
+@keyframes fade-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero,
+.about,
+.media,
+.gallery,
+.content-section {
+    animation: fade-up 0.6s var(--ease) both;
+}
+
+.about { animation-delay: 0.06s; }
+.media { animation-delay: 0.12s; }
+.gallery { animation-delay: 0.18s; }
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
 }
 
 /* Responsive Design */
